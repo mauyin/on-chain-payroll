@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-15T00:00:00.000Z" agent="Draw.io" version="22.1.0" type="device">
+  <diagram name="Architecture" id="architecture-main">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="On-chain Payroll: Model-Proof-Settlement Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== LAYER 1: Frontend/Integration ==================== -->
+        <mxCell id="layer1-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F9FAFB;strokeColor=#6B7280;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="1520" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="layer1-label" value="Frontend / Integration Layer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#6B7280;" vertex="1" parent="1">
+          <mxGeometry x="60" y="90" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Web UI -->
+        <mxCell id="web-ui" value="Web UI&#xa;(React)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6B7280;strokeColor=#374151;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="130" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="web-ui-detail" value="Employer Dashboard&#xa;Employee Portal&#xa;Auditor Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#9CA3AF;" vertex="1" parent="1">
+          <mxGeometry x="120" y="210" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Compliance SDK -->
+        <mxCell id="sdk" value="Compliance SDK&#xa;(TypeScript)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6B7280;strokeColor=#374151;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="130" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-detail" value="create_salary_proof()&#xa;verify_proof()&#xa;generate_audit_report()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#9CA3AF;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="340" y="210" width="160" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Lace Wallet -->
+        <mxCell id="lace-wallet" value="Lace Wallet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0EA5E9;strokeColor=#0284C7;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="130" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Nami Wallet -->
+        <mxCell id="nami-wallet" value="Nami Wallet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0EA5E9;strokeColor=#0284C7;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="130" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Wallet Label -->
+        <mxCell id="wallet-label" value="Cardano Wallets&#xa;(Signing &amp;amp; Receiving)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#9CA3AF;" vertex="1" parent="1">
+          <mxGeometry x="580" y="210" width="260" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- External: Bank/Auditor -->
+        <mxCell id="external" value="External Parties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1D5DB;strokeColor=#9CA3AF;strokeWidth=2;fontColor=#374151;fontSize=12;fontStyle=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="130" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="external-detail" value="Banks, Tax Authorities&#xa;Auditors, Visa Offices" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#9CA3AF;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="210" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== LAYER 2: Midnight Privacy ==================== -->
+        <mxCell id="layer2-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#64748B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="1520" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="layer2-label" value="Midnight Privacy Layer (Model + Proof)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#94A3B8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="290" width="300" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="midnight-badge" value="ZK-Enabled" style="ellipse;whiteSpace=wrap;html=1;fillColor=#64748B;strokeColor=#475569;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="370" y="285" width="70" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Privacy Vault -->
+        <mxCell id="privacy-vault" value="Privacy Vault&#xa;(Compact Contract)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#64748B;strokeColor=#475569;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="330" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="vault-detail" value="Encrypted Storage&#xa;View Key Access" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#94A3B8;" vertex="1" parent="1">
+          <mxGeometry x="100" y="440" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Employee Data Store -->
+        <mxCell id="employee-store" value="Employee Data&#xa;Store" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#64748B;strokeColor=#475569;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="330" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-detail" value="ID, Level, Position&#xa;(Encrypted)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#94A3B8;" vertex="1" parent="1">
+          <mxGeometry x="280" y="440" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Salary Rules Engine -->
+        <mxCell id="rules-engine" value="Salary Rules&#xa;Engine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#64748B;strokeColor=#475569;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="340" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rules-detail" value="Compensation Logic&#xa;Level-based Rules&#xa;Bonus Calculations" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#94A3B8;" vertex="1" parent="1">
+          <mxGeometry x="480" y="430" width="160" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ZK Proof Generator -->
+        <mxCell id="zk-generator" value="ZK Proof&#xa;Generator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F59E0B;strokeColor=#D97706;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="340" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zk-detail" value="Proof of Honest Payment&#xa;Rule Compliance Proof&#xa;Income Certificate" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#94A3B8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="430" width="160" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- View Key Manager -->
+        <mxCell id="view-key" value="View Key&#xa;Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#475569;strokeColor=#374151;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="340" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="view-key-detail" value="Selective Disclosure&#xa;Auditor Access&#xa;GDPR Compliance" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#94A3B8;" vertex="1" parent="1">
+          <mxGeometry x="920" y="430" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== LAYER 3: Bridge/Oracle ==================== -->
+        <mxCell id="layer3-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#F59E0B;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="1520" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="layer3-label" value="Relay Oracle Bridge (Temporary - Until Official Bridge)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#92400E;" vertex="1" parent="1">
+          <mxGeometry x="60" y="530" width="400" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Relay Oracle -->
+        <mxCell id="relay-oracle" value="Relay Oracle&#xa;Service" style="rhombus;whiteSpace=wrap;html=1;fillColor=#F59E0B;strokeColor=#D97706;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="560" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Proof Attestation -->
+        <mxCell id="attestation" value="Proof Attestation&#xa;Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCD34D;strokeColor=#F59E0B;strokeWidth=2;fontColor=#78350F;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="565" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="attestation-detail" value="Off-chain Verification&#xa;Cryptographic Signature" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#92400E;" vertex="1" parent="1">
+          <mxGeometry x="820" y="575" width="160" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== LAYER 4: Cardano Settlement ==================== -->
+        <mxCell id="layer4-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="680" width="1520" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="layer4-label" value="Cardano Settlement Layer (Mainnet)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#047857;" vertex="1" parent="1">
+          <mxGeometry x="60" y="690" width="300" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mainnet-badge" value="MAINNET" style="ellipse;whiteSpace=wrap;html=1;fillColor=#10B981;strokeColor=#059669;fontColor=#FFFFFF;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="685" width="70" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Settlement Registry -->
+        <mxCell id="settlement" value="Settlement Registry&#xa;(Plutus/Aiken)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10B981;strokeColor=#059669;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="740" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="settlement-detail" value="Proof Verification&#xa;Fund Release Logic&#xa;Multi-sig Controls" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#047857;" vertex="1" parent="1">
+          <mxGeometry x="200" y="840" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Fund Escrow -->
+        <mxCell id="escrow" value="Fund Escrow&#xa;(ADA/Tokens)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#10B981;strokeColor=#059669;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="730" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="escrow-detail" value="Employer Deposits&#xa;Locked Until Verified" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#047857;" vertex="1" parent="1">
+          <mxGeometry x="460" y="840" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Employee Wallets -->
+        <mxCell id="emp-wallets" value="Employee&#xa;Wallets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#34D399;strokeColor=#10B981;strokeWidth=2;fontColor=#064E3B;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="750" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="emp-wallets-detail" value="ADA Recipients&#xa;Cardano Addresses" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#047857;" vertex="1" parent="1">
+          <mxGeometry x="680" y="840" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Transaction Log -->
+        <mxCell id="tx-log" value="Transaction Log&#xa;(On-chain)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#6EE7B7;strokeColor=#10B981;strokeWidth=2;fontColor=#064E3B;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="730" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tx-log-detail" value="Immutable Audit Trail&#xa;cardanoscan.io" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#047857;" vertex="1" parent="1">
+          <mxGeometry x="900" y="840" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== DATA FLOW ARROWS ==================== -->
+        
+        <!-- UI to SDK -->
+        <mxCell id="flow1" value="" style="endArrow=classic;html=1;strokeColor=#0EA5E9;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="web-ui" target="sdk">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="170" as="sourcePoint" />
+            <mxPoint x="330" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow1-label" value="API Calls" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#0EA5E9;" vertex="1" parent="1">
+          <mxGeometry x="270" y="145" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- SDK to Wallet -->
+        <mxCell id="flow2" value="" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#0EA5E9;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="sdk" target="lace-wallet">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="170" as="sourcePoint" />
+            <mxPoint x="570" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow2-label" value="Sign Tx" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#0EA5E9;" vertex="1" parent="1">
+          <mxGeometry x="510" y="145" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- SDK to Midnight -->
+        <mxCell id="flow3" value="" style="endArrow=classic;html=1;strokeColor=#64748B;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="sdk" target="privacy-vault">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="220" as="sourcePoint" />
+            <mxPoint x="170" y="320" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="420" y="260" />
+              <mxPoint x="170" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow3-label" value="1. Store Rules&#xa;(Encrypted)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#64748B;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="250" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Privacy Vault to Employee Store -->
+        <mxCell id="flow4" value="" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#94A3B8;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="privacy-vault" target="employee-store">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="250" y="380" as="sourcePoint" />
+            <mxPoint x="270" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Employee Store to Rules Engine -->
+        <mxCell id="flow5" value="" style="endArrow=classic;html=1;strokeColor=#94A3B8;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="employee-store" target="rules-engine">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="430" y="380" as="sourcePoint" />
+            <mxPoint x="470" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow5-label" value="2. Load Data" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#94A3B8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="355" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Rules Engine to ZK Generator -->
+        <mxCell id="flow6" value="" style="endArrow=classic;html=1;strokeColor=#F59E0B;strokeWidth=3;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="rules-engine" target="zk-generator">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="380" as="sourcePoint" />
+            <mxPoint x="690" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow6-label" value="3. Generate&#xa;ZK Proof" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#F59E0B;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="350" width="60" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- ZK Generator to Relay Oracle -->
+        <mxCell id="flow7" value="" style="endArrow=classic;html=1;strokeColor=#F59E0B;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="zk-generator" target="relay-oracle">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="780" y="430" as="sourcePoint" />
+            <mxPoint x="470" y="550" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="780" y="500" />
+              <mxPoint x="470" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow7-label" value="4. Submit Proof" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#F59E0B;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="480" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Relay Oracle to Attestation -->
+        <mxCell id="flow8" value="" style="endArrow=classic;html=1;strokeColor=#D97706;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="relay-oracle" target="attestation">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="600" as="sourcePoint" />
+            <mxPoint x="610" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow8-label" value="Verify &amp;amp; Sign" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#D97706;" vertex="1" parent="1">
+          <mxGeometry x="550" y="575" width="70" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Attestation to Settlement -->
+        <mxCell id="flow9" value="" style="endArrow=classic;html=1;strokeColor=#10B981;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="attestation" target="settlement">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="645" as="sourcePoint" />
+            <mxPoint x="290" y="730" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="700" y="665" />
+              <mxPoint x="290" y="665" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow9-label" value="5. Attestation&#xa;to Cardano" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#10B981;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="650" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Settlement to Escrow -->
+        <mxCell id="flow10" value="" style="endArrow=classic;html=1;strokeColor=#059669;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="settlement" target="escrow">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="785" as="sourcePoint" />
+            <mxPoint x="450" y="785" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow10-label" value="6. Unlock" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#059669;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="760" width="50" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Escrow to Employee Wallets -->
+        <mxCell id="flow11" value="" style="endArrow=classic;html=1;strokeColor=#10B981;strokeWidth=3;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="escrow" target="emp-wallets">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="610" y="785" as="sourcePoint" />
+            <mxPoint x="670" y="785" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow11-label" value="7. Transfer ADA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#10B981;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="760" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Employee Wallets to TX Log -->
+        <mxCell id="flow12" value="" style="endArrow=classic;html=1;strokeColor=#6EE7B7;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" source="emp-wallets" target="tx-log">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="830" y="790" as="sourcePoint" />
+            <mxPoint x="890" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow12-label" value="Log" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#6EE7B7;" vertex="1" parent="1">
+          <mxGeometry x="840" y="765" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Wallet back to UI (notification) -->
+        <mxCell id="flow13" value="" style="endArrow=classic;html=1;strokeColor=#0EA5E9;strokeWidth=2;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="emp-wallets" target="nami-wallet">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="750" y="740" as="sourcePoint" />
+            <mxPoint x="750" y="220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="750" y="660" />
+              <mxPoint x="1100" y="660" />
+              <mxPoint x="1100" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow13-label" value="8. Notification" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#0EA5E9;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="145" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- View Key to External (audit) -->
+        <mxCell id="flow14" value="" style="endArrow=classic;html=1;strokeColor=#9CA3AF;strokeWidth=2;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="view-key" target="external">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1070" y="380" as="sourcePoint" />
+            <mxPoint x="1430" y="220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1200" y="380" />
+              <mxPoint x="1200" y="250" />
+              <mxPoint x="1430" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow14-label" value="Audit Reports&#xa;(Selective Disclosure)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#9CA3AF;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="290" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== LEGEND ==================== -->
+        <mxCell id="legend-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D1D5DB;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="720" width="380" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="725" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6B7280;strokeColor=#374151;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="750" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1-text" value="Frontend/UI Components" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="747" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#64748B;strokeColor=#475569;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="775" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2-text" value="Midnight Privacy Layer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="772" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F59E0B;strokeColor=#D97706;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="800" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3-text" value="Relay Oracle Bridge" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="797" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10B981;strokeColor=#059669;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="825" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4-text" value="Cardano Settlement (Mainnet)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="822" width="160" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0EA5E9;strokeColor=#0284C7;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="850" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5-text" value="Wallet Integration" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="847" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Flow legend -->
+        <mxCell id="leg6" value="" style="endArrow=classic;html=1;strokeColor=#374151;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1350" y="758" as="sourcePoint" />
+            <mxPoint x="1390" y="758" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg6-text" value="Data Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="750" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg7" value="" style="endArrow=classic;html=1;strokeColor=#374151;strokeWidth=2;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1350" y="783" as="sourcePoint" />
+            <mxPoint x="1390" y="783" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg7-text" value="Async/Notification" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="775" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg8" value="1-8" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E5E7EB;strokeColor=#9CA3AF;fontColor=#374151;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="800" width="40" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg8-text" value="Process Sequence" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="800" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

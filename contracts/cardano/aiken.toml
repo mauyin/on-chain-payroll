@@ -1,0 +1,16 @@
+name = "on_chain_payroll/settlement_registry"
+version = "0.1.0"
+plutus = "v3"
+license = "MIT"
+description = "Cardano Settlement Registry for On-chain Payroll - Verifies ZK proof attestations and releases funds"
+
+[repository]
+user = "on-chain-payroll"
+project = "settlement-registry"
+platform = "github"
+
+[[dependencies]]
+name = "aiken-lang/stdlib"
+version = "v2.2.0"
+source = "github"
+

@@ -1,0 +1,441 @@
+/**
+ * On-chain Payroll: Privacy Vault Contract
+ * 
+ * A Midnight Compact smart contract demonstrating privacy-preserving
+ * payroll computation with ZK proof generation.
+ * 
+ * This contract stores encrypted employee data and salary rules,
+ * computes salaries privately, and generates ZK proofs that can be
+ * verified on Cardano without revealing sensitive information.
+ * 
+ * Key Features:
+ * - Private employee data storage (level, position, salary)
+ * - Encrypted salary rules and compensation logic
+ * - ZK proof generation for salary claims
+ * - Selective disclosure via View Keys for auditors
+ * - Replay protection via round counter
+ * 
+ * @author On-chain Payroll Team
+ * @version 0.1.0
+ */
+
+pragma language_version >= 0.16;
+
+import CompactStandardLibrary;
+
+// ============================================================================
+// ENUMS & TYPES
+// ============================================================================
+
+/**
+ * Contract lifecycle states
+ */
+enum ContractState {
+  UNINITIALIZED,
+  ACTIVE,
+  PAUSED
+}
+
+/**
+ * Employee status within the organization
+ */
+enum EmployeeStatus {
+  INACTIVE,
+  ACTIVE,
+  TERMINATED
+}
+
+/**
+ * Claim status for tracking payment requests
+ */
+enum ClaimStatus {
+  PENDING,
+  APPROVED,
+  REJECTED,
+  SETTLED
+}
+
+// ============================================================================
+// PUBLIC LEDGER STATE
+// ============================================================================
+
+/**
+ * Contract administrator public key (derived from secret key)
+ * Used for authorization of administrative operations
+ */
+export ledger admin_authority: Bytes<32>;
+
+/**
+ * Current contract state
+ */
+export ledger contract_state: ContractState;
+
+/**
+ * Round counter for replay protection and key derivation
+ * Incremented after each successful payroll cycle
+ */
+export ledger round: Counter;
+
+/**
+ * Total number of registered employees
+ */
+export ledger employee_count: Uint<64>;
+
+/**
+ * Total budget deposited (in lovelace/smallest unit)
+ */
+export ledger total_budget: Uint<64>;
+
+/**
+ * Total amount disbursed across all payroll cycles
+ */
+export ledger total_disbursed: Uint<64>;
+
+/**
+ * Hash of the current salary rules (for verification)
+ * The actual rules remain private
+ */
+export ledger rules_hash: Bytes<32>;
+
+/**
+ * Merkle root of all approved claims
+ * Allows efficient verification without revealing individual claims
+ */
+export ledger claims_root: Bytes<32>;
+
+// ============================================================================
+// CONSTRUCTOR
+// ============================================================================
+
+/**
+ * Initialize the payroll vault with an administrator
+ * 
+ * @param admin_sk - Administrator's secret key (private input)
+ * @param initial_budget - Initial budget allocation
+ */
+constructor(admin_sk: Bytes<32>, initial_budget: Uint<64>) {
+  // Derive public key from secret key using deterministic hashing
+  admin_authority = disclose(derivePublicKey(round, admin_sk));
+  
+  // Set initial state
+  contract_state = ContractState.ACTIVE;
+  employee_count = 0 as Uint<64>;
+  total_budget = disclose(initial_budget);
+  total_disbursed = 0 as Uint<64>;
+  rules_hash = pad(32, "0x00");
+  claims_root = pad(32, "0x00");
+}
+
+// ============================================================================
+// HELPER CIRCUITS (Internal)
+// ============================================================================
+
+/**
+ * Derive a public key from round and secret key
+ * Uses persistent hashing for deterministic derivation
+ */
+circuit derivePublicKey(round: Field, sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<3, Bytes<32>>>(
+    [pad(32, "midnight:payroll:pk"), round as Bytes<32>, sk]
+  );
+}
+
+/**
+ * Compute salary based on employee level
+ * This is the core private computation - inputs and outputs remain hidden
+ * 
+ * Note: Compact does not support division operator, so we use an additive model
+ * where level_increment and bonus_amount are pre-calculated off-chain.
+ * 
+ * Off-chain calculation:
+ *   level_increment = base_salary * 11 / 100  (11% per level)
+ *   bonus_amount = (base_salary * level_multiplier / 100) * bonus_rate / 100
+ * 
+ * @param level - Employee's compensation level (1-10)
+ * @param base_salary - Base salary amount
+ * @param level_increment - Pre-calculated increment per level (base_salary * 0.11)
+ * @param bonus_amount - Pre-calculated bonus amount
+ */
+circuit computeSalaryAmount(
+  level: Uint<8>, 
+  base_salary: Uint<64>, 
+  level_increment: Uint<64>,
+  bonus_amount: Uint<64>
+): Uint<64> {
+  // Validate level range
+  assert(level >= (1 as Uint<8>), "Invalid level: too low");
+  assert(level <= (10 as Uint<8>), "Invalid level: too high");
+  
+  // Calculate level-adjusted salary using addition and multiplication only
+  // Each level above 1 adds level_increment to base salary
+  // This achieves the same result as: base * (100 + (level-1)*11) / 100
+  const level_bonus = (((level - (1 as Uint<8>)) as Uint<64>) * level_increment) as Uint<64>;
+  
+  // Final salary = base + level adjustment + bonus
+  return (base_salary + level_bonus + bonus_amount) as Uint<64>;
+}
+
+/**
+ * Hash employee data for commitment
+ * Note: Level is converted to bytes for hashing
+ */
+circuit hashEmployeeData(
+  employee_id: Bytes<32>,
+  level: Uint<8>,
+  wallet_hash: Bytes<32>
+): Bytes<32> {
+  // Convert level to Bytes<32> by extending to Uint<64> first
+  const level_bytes = (level as Uint<64>) as Bytes<32>;
+  return persistentHash<Vector<3, Bytes<32>>>(
+    [employee_id, level_bytes, wallet_hash]
+  );
+}
+
+/**
+ * Generate a claim proof hash
+ * This hash is submitted to Cardano for verification
+ */
+circuit generateClaimHash(
+  employee_id: Bytes<32>,
+  amount: Uint<64>,
+  round_num: Field,
+  nonce: Bytes<32>
+): Bytes<32> {
+  // Convert numeric types to Bytes<32> for hashing
+  const amount_bytes = amount as Bytes<32>;
+  const round_bytes = round_num as Bytes<32>;
+  return persistentHash<Vector<4, Bytes<32>>>(
+    [
+      employee_id,
+      amount_bytes,
+      round_bytes,
+      nonce
+    ]
+  );
+}
+
+// ============================================================================
+// WITNESS FUNCTIONS (Private Inputs)
+// ============================================================================
+
+/**
+ * Witness function to retrieve admin's secret key
+ * Called by the DApp to provide private authorization
+ */
+witness getAdminSecretKey(): Bytes<32>;
+
+/**
+ * Witness function to retrieve employee's private data
+ * Returns: (employee_id, level, base_salary, level_increment, bonus_amount, wallet_hash)
+ * Note: level_increment and bonus_amount are pre-calculated off-chain since Compact doesn't support division
+ */
+witness getEmployeeData(): Vector<6, Bytes<32>>;
+
+/**
+ * Witness function to retrieve salary rules
+ * Rules are stored privately in the DApp
+ */
+witness getSalaryRules(): Vector<10, Uint<64>>;
+
+/**
+ * Witness function to get a random nonce for claim uniqueness
+ */
+witness getClaimNonce(): Bytes<32>;
+
+// ============================================================================
+// EXPORT CIRCUITS (Public Interface)
+// ============================================================================
+
+/**
+ * Register a new employee in the system
+ * Only admin can register employees
+ * 
+ * @param employee_commitment - Hash commitment of employee data
+ * @return Updated employee count
+ */
+export circuit registerEmployee(employee_commitment: Bytes<32>): Uint<64> {
+  // Verify admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  // Verify contract is active
+  assert(contract_state == ContractState.ACTIVE, "Contract not active");
+  
+  // Increment employee count
+  employee_count = (employee_count + (1 as Uint<64>)) as Uint<64>;
+  
+  // Return new count (disclosed)
+  return disclose(employee_count);
+}
+
+/**
+ * Update salary rules
+ * Stores hash of rules publicly, actual rules remain private
+ * 
+ * @param new_rules_hash - Hash of the new salary rule set
+ */
+export circuit updateSalaryRules(new_rules_hash: Bytes<32>): [] {
+  // Verify admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  // Update rules hash
+  rules_hash = disclose(new_rules_hash);
+}
+
+/**
+ * Add budget to the payroll vault
+ * 
+ * @param amount - Amount to add (in lovelace)
+ */
+export circuit depositBudget(amount: Uint<64>): Uint<64> {
+  // Verify admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  // Add to total budget (amount must be disclosed for ledger operation)
+  const disclosed_amount = disclose(amount);
+  total_budget = (total_budget + disclosed_amount) as Uint<64>;
+  
+  return disclose(total_budget);
+}
+
+/**
+ * CORE FUNCTION: Compute salary and generate ZK proof
+ * 
+ * This is the main privacy-preserving computation:
+ * - Takes private employee data as witness input
+ * - Computes salary based on private rules
+ * - Generates a proof hash for Cardano settlement
+ * - Does NOT reveal: employee identity, level, or exact salary
+ * 
+ * @return proof_hash - Hash to be verified on Cardano
+ */
+export circuit computeSalaryProof(): Bytes<32> {
+  // Verify contract is active
+  assert(contract_state == ContractState.ACTIVE, "Contract not active");
+  
+  // Get private employee data (now includes pre-calculated values)
+  const emp_data = getEmployeeData();
+  const employee_id = emp_data[0];
+  const level = emp_data[1][0] as Uint<8>;  // Extract first byte as level
+  const base_salary = emp_data[2] as Uint<64>;
+  const level_increment = emp_data[3] as Uint<64>;  // Pre-calculated: base_salary * 0.11
+  const bonus_amount = emp_data[4] as Uint<64>;     // Pre-calculated bonus
+  const wallet_hash = emp_data[5];
+  
+  // Compute salary amount (private computation using pre-calculated values)
+  const salary_amount = computeSalaryAmount(level, base_salary, level_increment, bonus_amount);
+  
+  // Verify sufficient budget
+  assert(salary_amount <= total_budget - total_disbursed, "Insufficient budget");
+  
+  // Generate unique claim nonce
+  const nonce = getClaimNonce();
+  
+  // Generate proof hash (this is what gets sent to Cardano)
+  const proof_hash = generateClaimHash(employee_id, salary_amount, round, nonce);
+  
+  // Disclose the proof hash (this is intentional - the hash is public, data is private)
+  const disclosed_proof_hash = disclose(proof_hash);
+  
+  // Update claims root with the disclosed hash (simplified - production would use Merkle tree)
+  claims_root = persistentHash<Vector<2, Bytes<32>>>([claims_root, disclosed_proof_hash]);
+  
+  // Return the proof hash for cross-chain verification
+  return disclosed_proof_hash;
+}
+
+/**
+ * Mark a claim as settled (called after Cardano confirms payment)
+ * 
+ * @param claim_hash - The proof hash that was settled
+ * @param amount - Amount that was settled
+ */
+export circuit markSettled(claim_hash: Bytes<32>, amount: Uint<64>): [] {
+  // Verify admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  // Update disbursed amount (amount must be disclosed for ledger operation)
+  const disclosed_amount = disclose(amount);
+  total_disbursed = (total_disbursed + disclosed_amount) as Uint<64>;
+}
+
+/**
+ * Complete a payroll cycle and increment round
+ * This prevents replay of previous proofs
+ */
+export circuit completePayrollCycle(): Field {
+  // Verify admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  // Increment round counter
+  round.increment(1);
+  
+  // Return new round number
+  return round;
+}
+
+/**
+ * Generate audit report proof
+ * Allows auditors to verify totals without seeing individual records
+ * 
+ * @return (total_employees, total_budget, total_disbursed)
+ */
+export circuit getAuditSummary(): Vector<3, Uint<64>> {
+  return [
+    employee_count,
+    total_budget,
+    total_disbursed
+  ];
+}
+
+/**
+ * Pause the contract (emergency stop)
+ */
+export circuit pauseContract(): [] {
+  // Verify admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  contract_state = ContractState.PAUSED;
+}
+
+/**
+ * Resume the contract
+ */
+export circuit resumeContract(): [] {
+  // Verify admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  contract_state = ContractState.ACTIVE;
+}
+
+/**
+ * Transfer admin authority to new administrator
+ * 
+ * @param new_admin_pk - New administrator's public key
+ */
+export circuit transferAdmin(new_admin_pk: Bytes<32>): [] {
+  // Verify current admin authorization
+  const admin_sk = getAdminSecretKey();
+  const derived_pk = derivePublicKey(round, admin_sk);
+  assert(admin_authority == derived_pk, "Unauthorized: not admin");
+  
+  // Transfer authority
+  admin_authority = disclose(new_admin_pk);
+  
+  // Increment round to invalidate old keys
+  round.increment(1);
+}
+
